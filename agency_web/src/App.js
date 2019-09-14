@@ -3,6 +3,8 @@ import Agency from './Agency';
 import User from './User';
 import Government from './Government';
 
+import './App.css';
+
 class App extends React.Component {
 
   state = {
@@ -24,13 +26,15 @@ class App extends React.Component {
   };
 
   render() {
-    const { isUser, isAgency, isGovernment } = this.state;
+    const { isUser, isAgency } = this.state;
     return (
       <div className="App">
+        <center>
         <button onClick={this.User}>User</button>
         <button onClick={this.Agency}>Agency</button>
         <button onClick={this.Government}>Government</button>
         {isUser ? <User /> : isAgency ? <Agency /> : <Government />}
+        </center>
       </div>
     );
   }
