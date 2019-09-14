@@ -12,7 +12,6 @@ function Agency()  {
     );
 }
 
-
 const styles = {
   h1 : {
     marginTop : '50px',
@@ -23,6 +22,5 @@ const styles = {
     textAlign: 'center'
   }
 }
-
 
 export default Agency;
