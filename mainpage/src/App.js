@@ -20,7 +20,7 @@ class App extends React.Component {
     this.setState({
       NFC: e.target.value
     });
-  }
+  };
 
   getLoginResult = async () => {
     const {
@@ -29,35 +29,22 @@ class App extends React.Component {
         time,
         type
       }
-    } = await axios.get(
-      "http://localhost:4000"
-    );
-    console.log("qweqweqweqwe : ", name, time, type);
-
-    this.setState({ name, time, type });
-  };
-
-  send = async () => {
-    await axios.get('http://localhost:4000/users', {
+    } = await axios.get('http://localhost:4000/users', {
       params: {
         result: this.state.NFC
       }
     })
-      .then((response) => {
-        console.log(response);
+    await console.log("qweqweqweqwe : ", name, time, type);
 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await this.setState({ name, time, type });
   }
 
   componentDidMount() {
-    this.getLoginResult();
-    console.log("ㅁㄴㅇㅁㄴㅇㅁㄴㅇ : ", this.state.NFC);
+    console.log("this.state.NFC : ", this.state.NFC);
   }
 
   componentDidUpdate() {
+    console.log("this.state.NFC : ", this.state.NFC);
     if (this.state.isResult === true) {
       setTimeout(function () {
         this.setState({ isResult: false, NFC: ''})
@@ -68,7 +55,6 @@ class App extends React.Component {
   AttendanceResult = (e) => {
     this.setState({ isResult: true });
     this.getLoginResult();
-    this.send();
     e.preventDefault();
   };
 

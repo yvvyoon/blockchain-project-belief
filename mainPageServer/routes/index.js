@@ -4,12 +4,14 @@ var cors = require('cors');
 router.use(cors());
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
+  console.log('users12345678 : ', req.session.name);
   res.json({
-    name: '홍길동',
-    time: '8시 30분',
-    type: '출근'
- });
+    name: req.session.name,
+    time: req.session.time,
+    type: req.session.type
+  });
+  console.log('users12345678 : ', req.session.name);
 });
 
 module.exports = router;
