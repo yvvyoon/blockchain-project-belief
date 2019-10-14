@@ -98,7 +98,7 @@ module.exports = {
             
             console.log('Transaction 출력 완료');
             
-            return result;
+            return result.toString();
         } catch (e) {
             console.log(e);
         }

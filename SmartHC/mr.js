@@ -65,9 +65,12 @@ let Chaincode = class {
             status: args[2]
         }
 
-        if (await stub.getState(key)) {
+        if (await stub.getState(key) != '') {
+            console.log('왜 안되는ㄷ ㅔ-_-');
+
             let dataAsBytes = await stub.getState(key);
 
+            console.log('dataAsBytes: ', dataAsBytes);
 
             if (!dataAsBytes || dataAsBytes.toString().length <= 0) {
                 throw new Error(dataAsBytes + ' does not exist: ');
@@ -88,7 +91,6 @@ let Chaincode = class {
                 mr.timestamp = args[1];
                 mr.status = '0';
             }
-
         }
 
         await stub.putState(key, Buffer.from(JSON.stringify(mr)));
