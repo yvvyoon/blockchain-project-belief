@@ -8,11 +8,11 @@ var cors = require('cors');
 router.use(cors());
 
 /* login */
-router.post('/login', function(req, res, next) {
-    var id=req.body.id;
-    //var pw=req.body.pw;   
-    console.log(id,pw);
-    if(id && pw){
+router.get('/', function(req, res, next) {
+    var id=req.query.id;
+    var pw=req.query.pw;   
+    console.log(id, pw);
+    if(id){
         MongoClient.connect(url, function(err,db){
             if(err){
                 console.log(err);
@@ -32,7 +32,12 @@ router.post('/login', function(req, res, next) {
                             console.log(result);
                             req.session.loginedID=id;
                             req.session.loginedName=result.MEMBER_NAME;
-                            res.send(req.session.loginedName+'님 로그인되셨습니다');                        
+                            const send_params={
+                                name: result.MEMBER_NAME,
+                                admin: result.RANK
+                            }
+                            console.log(send_params);
+                            res.send(JSON.stringify(send_params));
                         }                    
                     }
                 );            

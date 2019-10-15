@@ -23,10 +23,10 @@ console.log(`Wallet path: ${walletPath}`);
 module.exports = {
     attendReportInsert: async function (member_no, timestamp, status) {
         try {            
-            const userExists = await wallet.exists('user1');
+            const userExists = await wallet.exists('user2');
 
             if (!userExists) {
-                console.log('An identity for the user "user1" does not exist in the wallet');
+                console.log('An identity for the user "user2" does not exist in the wallet');
                 
                 await res.json({
                     'msg': '연결부터 해주세요'
@@ -40,7 +40,7 @@ module.exports = {
 
             await gateway.connect(ccp, { 
                 wallet, 
-                identity: 'user1', 
+                identity: 'user2', 
                 discovery: { 
                     enabled: false 
                 } 
@@ -64,10 +64,10 @@ module.exports = {
         try {
             console.log('member_no:', member_no);
             
-            const userExists = await wallet.exists('user1');
+            const userExists = await wallet.exists('user2');
 
             if (!userExists) {
-                console.log('An identity for the user "user1" does not exist in the wallet');
+                console.log('An identity for the user "user2" does not exist in the wallet');
                 
                 await res.json({
                     'msg': '연결부터 해주세요'
@@ -81,7 +81,7 @@ module.exports = {
 
             await gateway.connect(ccp, { 
                 wallet, 
-                identity: 'user1', 
+                identity: 'user2', 
                 discovery: { 
                     enabled: false 
                 } 
@@ -110,11 +110,11 @@ module.exports = {
             console.log('startTime:', startTime);
             console.log('endTime:', endTime);
             
-            const userExists = await wallet.exists('user1');
+            const userExists = await wallet.exists('user2');
 
             // user가 없을 때
             if (!userExists) {
-                console.log('An identity for the user "user1" does not exist in the wallet');
+                console.log('An identity for the user "user2" does not exist in the wallet');
                 
                 await res.json({
                     'msg': '연결부터 해주세요'
@@ -128,7 +128,7 @@ module.exports = {
 
             await gateway.connect(ccp, { 
                 wallet, 
-                identity: 'user1', 
+                identity: 'user2`', 
                 discovery: { 
                     enabled: false 
                 } 

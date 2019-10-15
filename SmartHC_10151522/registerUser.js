@@ -30,8 +30,8 @@ const { FileSystemWallet, X509WalletMixin, Gateway } = require('fabric-network')
        console.log('Successfully enrolled admin user "admin" and imported it into the wallet');
     }   
 
-    // 지갑에 user1에 대한 신원 증명서가 있는지 확인
-    const userExists = await wallet.exists('user1');
+    // 지갑에 user2에 대한 신원 증명서가 있는지 확인
+    const userExists = await wallet.exists('user2');
     if (!userExists) {
         // 피어 노드로 연결하기 위한 Gateway 객체 생성.
         const gateway = new Gateway();
@@ -41,12 +41,12 @@ const { FileSystemWallet, X509WalletMixin, Gateway } = require('fabric-network')
         const ca = gateway.getClient().getCertificateAuthority();
         const adminIdentity = gateway.getCurrentIdentity();
 
-        // user1의 신원 증명
-        const secret = await ca.register({ affiliation: 'org1.department1', enrollmentID: 'user1', role: 'client' }, adminIdentity);
-        const enrollment = await ca.enroll({ enrollmentID: 'user1', enrollmentSecret: secret });
+        // user2의 신원 증명
+        const secret = await ca.register({ affiliation: 'org1.department1', enrollmentID: 'user2', role: 'client' }, adminIdentity);
+        const enrollment = await ca.enroll({ enrollmentID: 'user2', enrollmentSecret: secret });
         const userIdentity = X509WalletMixin.createIdentity('Org1MSP', enrollment.certificate, enrollment.key.toBytes());
-        wallet.import('user1', userIdentity);
-        console.log('Successfully registered and enrolled admin user "user1" and imported it into the wallet');
+        wallet.import('user2', userIdentity);
+        console.log('Successfully registered and enrolled admin user "user2`" and imported it into the wallet');
 
     }
 
