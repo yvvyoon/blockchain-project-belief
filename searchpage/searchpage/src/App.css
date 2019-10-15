@@ -1,0 +1,182 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+}
+
+
+.App{
+  display: flex
+}
+
+tr:hover {background-color:#f5f5f5;}
+
+th {
+  background-color: #f2f2f2;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: center;
+  width: 100%;
+}
+
+th, tr, td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tb_width{
+  width: 25%;
+  text-align: center;
+}
+
+
+form {
+  width: 100%;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 1% 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.main {
+  width: 100%;
+  margin-top: 3%;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 1%;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+
+}
+ul.logo {
+  list-style-type: none;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 20%;
+  background: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+ul.sidenav {
+  list-style-type: none;
+  z-index: 1;
+  top: 10%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 20%;
+  background: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+ul.sidenav li p {
+
+  padding: 0;
+  display: block;
+  color: #000;
+  padding: 5% 20%;
+  text-decoration: none;
+  font-size: 25px;
+}
+
+ul.sidenav li p:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.main {
+  margin-left: 20%;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+@media screen and (max-width: 900px) {
+  ul.sidenav {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  ul.sidenav li a {
+    float: left;
+    padding: 15px;
+  }
+  
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  ul.sidenav li a {
+    text-align: center;
+    float: none;
+  }
+}
+img {
+  width: 20px;
+  height: auto;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+img.logo {
+  width: 80px;
+  height: auto;
+  
+}
+
+
+ul.logo li p {
+
+  padding: 0;
+  display: block;
+  color: #000;
+  text-decoration: none;
+  font-size: 50px;
+  text-align: center;
+  text-align: middle;
+  margin-top : 0%;
+  margin-bottom: 10%;
+
+}
