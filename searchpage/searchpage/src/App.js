@@ -16,7 +16,8 @@ class App extends React.Component {
     login: false,
     name: '',
     admin: '',
-    number: '',
+    id: '',
+    pw: '',
     Timelogs: [],
     dept: '',
     Admins: []
@@ -25,13 +26,19 @@ class App extends React.Component {
   handleChange = (e) => {
     e.preventDefault();
     this.setState({
-      number: e.target.value
+      id: e.target.value,
+    });
+  };
+  pwChange = (e) => {
+    e.preventDefault();
+    this.setState({
+      pw: e.target.value,
     });
   };
 
   pushLogin = (e) => {
     this.login();
-    this.TimeLog();
+    //this.TimeLog();
     e.preventDefault();
   }
 
@@ -54,9 +61,10 @@ class App extends React.Component {
         admin
       }
     }
-      = await axios.get('http://70.12.227.203:4000/users', {
+      = await axios.get('http://localhost:9000/login', {
         params: {
-          result: this.state.number
+          id: this.state.id,
+          pw: this.state.pw
         }
       })
     await console.log(name, admin);
@@ -72,9 +80,9 @@ class App extends React.Component {
         Timelogs
       }
     }
-      = await axios.get('http://70.12.227.203:4000/timelogs', {
+      = await axios.get('http://localhost:9000/timelogs', {
         params: {
-          result: this.state.number
+          id: this.state.id
         }
       })
     await console.log(Timelogs);
@@ -89,7 +97,7 @@ class App extends React.Component {
         Admins
       }
     }
-      = await axios.get('http://70.12.227.203:4000/admins', {
+      = await axios.get('http://localhost:9000/admins', {
         /*         params: {
                   result: this.state.dept
                 } */
@@ -138,9 +146,9 @@ class App extends React.Component {
             <form action="" method="post">
               <div className="container">
                 <label><b>사원번호</b></label>
-                <input type="text" value={this.state.number} onChange={this.handleChange} placeholder="사원번호를 입력해주세요." />
+                <input type="text" value={this.state.id} onChange={this.handleChange} placeholder="사원번호를 입력해주세요." />
                 <label><b>비밀번호</b></label>
-                <input type="password" placeholder="비밀번호를 입력해주세요." />
+                <input type="password" value={this.state.pw} onChange={this.pwChange} placeholder="비밀번호를 입력해주세요." />
                 <button type="submit" onClick={this.pushLogin}>로그인</button>
               </div>
             </form>
@@ -158,7 +166,7 @@ class App extends React.Component {
                 </table>
                 {Timelogs.map(timelog => (
                   <TimeLog
-                    number={timelog.number}
+                    id={timelog.id}
                     date={timelog.date}
                     time={timelog.time}
                     type={timelog.type} />
@@ -179,7 +187,7 @@ class App extends React.Component {
                 {Admins.map(admin => (
                   <Admin
                     dept={admin.dept}
-                    number={admin.number}
+                    id={admin.id}
                     name={admin.name}
                     total={admin.total}
                   />
