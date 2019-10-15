@@ -3,6 +3,12 @@ const session=require('express-session');
 const cookieParser=require('cookie-parser');
 const path=require("path");
 const app=express();
+
+const router = express.Router();
+
+var cors = require('cors');
+router.use(cors());
+
  
 app.use(express.static(path.join(__dirname,"/public")));
 app.use(express.json());
@@ -26,6 +32,7 @@ app.use('/contact', contact);
 const medical=require('./routes/medical');
 app.use('/medical', medical);
   
+app.use('/login', require('./routes/login'));
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Something broke!');
