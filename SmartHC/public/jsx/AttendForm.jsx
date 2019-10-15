@@ -4,7 +4,7 @@ class AttendForm extends React.Component {
             member_no: this.member_no.value,
             // timestamp: new Date().getTime(),
             timestamp: new Date().getTime().toString(),
-            status: '0',
+            status: '1',
         }
 
         alert(JSON.stringify(data));

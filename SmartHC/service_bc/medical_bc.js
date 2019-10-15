@@ -52,9 +52,54 @@ module.exports = {
             // Get the contract from the network.
             const contract = network.getContract('medicalreport');
 
-            await contract.submitTransaction('createAttend', member_no, timestamp, status);
+            let result = await contract.submitTransaction('createAttend', member_no, timestamp, status);
             
             console.log('Blockchain 입력 완료');
+		console.log(result.toString());
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+getWorldState: async function (member_no) {
+        try {
+            console.log('member_no:', member_no);
+
+            const userExists = await wallet.exists('user1');
+
+            if (!userExists) {
+                console.log('An identity for the user "user1" does not exist in the wallet');
+
+                await res.json({
+                    'msg': '연결부터 해주세요'
+                });
+
+                return;
+            }
+
+            // Create a new gateway for connecting to our peer node.
+            const gateway = new Gateway();
+
+            await gateway.connect(ccp, {
+                wallet,
+                identity: 'user1',
+                discovery: {
+                    enabled: false
+                }
+            });
+
+            // Get the network (channel) our contract is deployed to.
+            const network = await gateway.getNetwork('mychannel');
+
+            // Get the contract from the network.
+            const contract = network.getContract('medicalreport');
+
+            // let result = await contract.evaluateTransaction('getHistoryForNo', member_no);
+            let result = await contract.evaluateTransaction('queryReport', member_no);
+
+            console.log('World State 출력 완료');
+
+            return result.toString();
         } catch (e) {
             console.log(e);
         }

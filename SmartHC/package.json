@@ -10,12 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fabric-ca-client": "~1.4.0",
-    "fabric-client": "~1.4.0",
-    "fabric-network": "^1.4.4",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "fabric-ca-client": "~1.4.0",
+    "fabric-client": "~1.4.0",
+    "fabric-network": "^1.4.4",
+    "make": "^0.8.1",
     "mongodb": "^3.3.2",
     "nodemon": "^1.19.2"
   }

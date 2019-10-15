@@ -21,7 +21,24 @@ router.post('/attendFormInsertOne', function (req, res, next) {
     let status = req.body.status;
     
     if (member_no) {
-        medical_BC_Service.attendReportInsert(member_no, timestamp, status);
+        medical_BC_Service.attendReportInsert(member_no, timestamp, status)
+            .then(res => {
+                console.log('***** attendReportInsert Success *****');
+
+                medical_BC_Service.getWorldState(member_no)
+                    .then(res => {
+                        console.log('***** getWorldState Success *****');
+                        console.log('status is ', JSON.parse(res).status);
+                    })
+                    .catch(err => {
+                        console.log('***** getWorldState 에러 *****');
+                        console.error(err);
+                    });
+            })
+            .catch(err => {
+                console.log('***** attendReportInsert 에러 *****');
+                console.error(err);
+            });
 
         res.send('attendFormInsertOne OK');
     } else {
