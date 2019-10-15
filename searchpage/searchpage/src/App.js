@@ -41,7 +41,7 @@ class App extends React.Component {
     //this.TimeLog();
     e.preventDefault();
   }
-
+npm
   isLogin = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false })
   }
@@ -54,11 +54,13 @@ class App extends React.Component {
   isAdmin = () => {
     this.setState({ isLogin: false, isTimeLog: false, isAdmin: true, login: true })
   }
+
   login = async () => {
     const {
       data: {
         name,
-        admin
+        admin,
+        dept
       }
     }
       = await axios.get('http://localhost:9000/login', {
@@ -67,8 +69,9 @@ class App extends React.Component {
           pw: this.state.pw
         }
       })
-    await console.log(name, admin);
-    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, login: true, name })
+    await console.log("영찬아 함봐라:",name, admin,dept);
+    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, login: true, name, dept })
+    await this.Admin();
   }
   Logout = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false, login: false })
@@ -98,9 +101,11 @@ class App extends React.Component {
       }
     }
       = await axios.get('http://localhost:9000/admins', {
-        /*         params: {
-                  result: this.state.dept
-                } */
+                params: {
+                  dept: this.state.dept,
+                  rank: this.state.admin,
+                  id: this.state.id
+               }
       })
     await console.log(Admins);
     await this.setState({ Admins })

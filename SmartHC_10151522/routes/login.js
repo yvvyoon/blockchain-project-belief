@@ -32,11 +32,14 @@ router.get('/', function(req, res, next) {
                             console.log(result);
                             req.session.loginedID=id;
                             req.session.loginedName=result.MEMBER_NAME;
+                            req.session.dept=result.DEPT;
+                            req.session.admin=result.RANK;
                             const send_params={
                                 name: result.MEMBER_NAME,
-                                admin: result.RANK
+                                admin: result.RANK,
+                                dept: result.DEPT
                             }
-                            console.log(send_params);
+                            console.log("ASDASDASD : ",send_params);
                             res.send(JSON.stringify(send_params));
                         }                    
                     }
