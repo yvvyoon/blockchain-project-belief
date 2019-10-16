@@ -12,9 +12,7 @@ router.use(cors());
 // This will be replaced by blockchain
 
 router.get('/', function (req, res, next) {
-    console.log("@@@@@@@@@@@@@@@@여기서 부터 하기");
-    let aaaa = req.query.rank;
-    console.log("asdasdasdasd:",aaaa);
+ 
     
     // medical_BC_Service.attendReportInsert("10001", "1570674446222", "0");
     // medical_BC_Service.attendReportInsert("10001", "1570674456222", "1");
@@ -39,22 +37,24 @@ router.get('/', function (req, res, next) {
           
 
                         // 2.Check member in same department
-                    db.collection('member').find({"DEPT" : req.session.dept}).toArray(
-                     (err, result) => { 
+                     db.collection('member').find({"DEPT" : req.query.dept}).toArray(
+                        async   (err, result) => { 
                              //result : All member in same department 
 
                             // Check User authority 
-                            if(req.session.admin){   
+                            if(req.query.admin){   
                                 
                                 const FinalResultArr = [];
                                 const MemberNumForRecord = []; // Number of what we want to find
                                 const findResult = [];  // Final result (Result of Entrance Record)
                                 let k = 0;
-                                console.log("=====",result);
+                                // console.log("=====",result);
 
                                 for(j=0; j<result.length; j++){ // 조회할 사람 숫자
                                     //console.log("====Member number to find",result[j].MEMBER_NO)
-                                    MemberNumForRecord.push(String(result[j].MEMBER_NO));
+                                  await  MemberNumForRecord.push(String(result[j].MEMBER_NO));
+                                    console.log('result[j].MEMBER_NO',result[0].MEMBER_NO);
+                                    
                                     const FinalResultObj = {
                                         FinDept : '',
                                         FinNum : '',
@@ -67,58 +67,73 @@ router.get('/', function (req, res, next) {
                                     const stampArr = new Array();  // 타임 스탬프 담기
                                     const totalArr = new Array();  
 
-                                    medical_BC_Service.getHistoryForNo(MemberNumForRecord[j]).then((blockResult) => {
+                                    await medical_BC_Service.getHistoryForNo(MemberNumForRecord[j]).then((blockResult) => {
+                                       
+                                        // 블록에 출근 기록 있어야 실행함
                                         if(JSON.parse(blockResult)[0]){
-                                        console.log("Entrance Result :", JSON.parse(blockResult));
+                                            console.log("Entrance Result :");
+                                            console.log(JSON.parse(blockResult));
                                             
-                                        let l = 0;
-                                        for(m=0;m<JSON.parse(blockResult).length;m++){
+                                              let l = 0;
+                                            for(m=0;m<JSON.parse(blockResult).length;m++){
                                          
-                                            // 예외처리 : 출근했을 때 조회하는 기능
+                                                // 예외처리 : 출근했을 때 조회하는 기능
                                                 console.log("status",(JSON.parse(blockResult)[0].Value.status))          
+                                                // 처음 블록이 "0" 일때 넘어가기
                                                 if((JSON.parse(blockResult)[0].Value.status) == "1"){
                                                     m++;
                                                 }
-
+                                                // 마지막 데이터가 1이 아니고 0일때 마지막 블록 빼고 계산
                                                 if((JSON.parse(blockResult)[JSON.parse(blockResult).length-1].Value.status) == "0"){
-                                                    if(m == JSON.parse(blockResult).length-1){
+                                                    if(m == (JSON.parse(blockResult)).length-1){
+                                                        console.log("111111111111111111111");
                                                         m++;
                                                     }else{
+                                                        console.log("22222222222222222");
                                                         stampArr.push((JSON.parse(blockResult)[l].Value.timestamp));
                                                         l++;
                                                     }
                                                 }else{
+                                                    console.log("333333333333333333333");
                                                     stampArr.push((JSON.parse(blockResult)[l].Value.timestamp));
                                                     l++;
                                                 }
                                                 
+                                            }
+                                            console.log(stampArr); // 조회한 직원 모든 기록 갯수
+                                            console.log('이력 조회 성공');
+
+                                            // const calTime = (stampArr) => {
+                                            //     let totalTime = 0;
+                                            //     for(i=stampArr.length/2; i>0; i--){
+                                            //         totalTime += stampArr[2*i-1]-stampArr[2*i-2];
+                                            //     }
+                                            //     return totalTime = (totalTime/(1000*60));
                                                 
-                                        
+                                            // }
+                                            //calTime(stampArr);
+                                            console.log(calTime(stampArr));
+                                            try {
+                                            FinalResultObj.FinTotalTime = calTime(stampArr);
+                                            FinalResultObj.FinDept = result[j].DEPT;
+                                            FinalResultObj.FinName = result[j].MEMBER_NAME;
+                                            FinalResultObj.FinNum =  result[j].MEMBER_NO;
+                                            } catch (error) {
+                                                console.log(error);
+                                                
+                                            }
+                                            // FinalResultObj.FinTotalTime = calTime(stampArr);
+                                            // FinalResultObj.FinDept = result[j].DEPT;
+                                            // FinalResultObj.FinName = result[j].MEMBER_NAME;
+                                            // FinalResultObj.FinNum =  result[j].MEMBER_NO;
+                                            //FinalResultObj.FinTotalTime = calTime(stampArr);
+    
+                                            FinalResultArr.push(FinalResultObj);
                                         }
-                                    }
                                     })
 
-                                    console.log(stampArr); // 조회한 직원 모든 기록 갯수
-                                    console.log('이력 조회 성공');
-
-                            
-                                        const calTime = (stampArr) => {
-                                            let totalTime = 0;
-                                            for(i=stampArr.length/2; i>0; i--){
-                                                totalTime += stampArr[2*i-1]-stampArr[2*i-2];
-                                            }
-                                            return totalTime = (totalTime/(1000*60));
-                                            
-                                        }
-                                        calTime(stampArr);
-                                        console.log(calTime(stampArr));
-
-                                        FinalResultObj.FinDept = result[j].DEPT;
-                                        FinalResultObj.FinName = result[j].MEMBER_NAME;
-                                        FinalResultObj.FinNum =  result[j].MEMBER_NO;
-                                        FinalResultObj.FinTotalTime = calTime(stampArr);
-
-                                        FinalResultArr.push(FinalResultObj);
+                                    // console.log(stampArr); // 조회한 직원 모든 기록 갯수
+                                    // console.log('이력 조회 성공');
 
 
                                     k++;
@@ -142,3 +157,13 @@ router.get('/', function (req, res, next) {
 });
 
 module.exports = router;
+
+
+const calTime = (stampArr) => {
+    let totalTime = 0;
+    for(i=stampArr.length/2; i>0; i--){
+        totalTime += stampArr[2*i-1]-stampArr[2*i-2];
+    }
+    return totalTime = (totalTime/(1000*60));
+    
+}
