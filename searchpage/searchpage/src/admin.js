@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 
 
 
-function admin({dept, number, name, total}) {
+function admin({dept, id, name, total}) {
     return(
         <div className="admin">
             <table>
                 <tr>
                     <td className="tb_width">{dept}</td>
-                    <td className="tb_width">{number}</td>
+                    <td className="tb_width">{id}</td>
                     <td className="tb_width">{name}</td>
                     <td className="tb_width">{total}</td>
                 </tr>
@@ -19,7 +19,7 @@ function admin({dept, number, name, total}) {
 }
 admin.ProtoTypes = {
     dept: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     total: PropTypes.string.isRequired,
 };
