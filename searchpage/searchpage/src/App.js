@@ -41,7 +41,7 @@ class App extends React.Component {
     //this.TimeLog();
     e.preventDefault();
   }
-
+npm
   isLogin = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false })
   }
@@ -54,22 +54,27 @@ class App extends React.Component {
   isAdmin = () => {
     this.setState({ isLogin: false, isTimeLog: false, isAdmin: true, login: true })
   }
+
   login = async () => {
     const {
       data: {
         name,
-        admin
+        admin,
+        dept
       }
     }
       = await axios.get('http://localhost:9000/login', {
         params: {
           id: this.state.id,
-          pw: this.state.pw
+          pw: this.state.pw,
         }
       })
-    await console.log(name, admin);
-    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, login: true, name })
+    await console.log("영찬아 함봐라11:",name, admin,dept, this.state.isAdmin);
+    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, admin, login: true, name, dept })
+    await console.log("영찬아 함봐라12:",name, admin,dept, this.state.isAdmin);
   }
+
+
   Logout = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false, login: false })
   }
@@ -92,15 +97,20 @@ class App extends React.Component {
 
   Admin = async () => {
     this.isAdmin();
+
+    await console.log("영찬아 함봐라222:",this.state.name, this.state.admin,this.state.dept, this.state.isAdmin);
+
     const {
       data: {
         Admins
       }
     }
       = await axios.get('http://localhost:9000/admins', {
-        /*         params: {
-                  result: this.state.dept
-                } */
+                params: {
+                  dept: this.state.dept,
+                  admin: this.state.isAdmin,
+                  id: this.state.id
+               }
       })
     await console.log(Admins);
     await this.setState({ Admins })
@@ -109,6 +119,7 @@ class App extends React.Component {
 
   render() {
     const { isLogin, isTimeLog, isAdmin, login, Timelogs, Admins } = this.state;
+    console.log("isAdmin :", isAdmin);
     return (
       <div className="App">
         <div className="sidebar">
