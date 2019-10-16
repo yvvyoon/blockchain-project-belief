@@ -66,13 +66,15 @@ npm
       = await axios.get('http://localhost:9000/login', {
         params: {
           id: this.state.id,
-          pw: this.state.pw
+          pw: this.state.pw,
         }
       })
-    await console.log("영찬아 함봐라:",name, admin,dept);
-    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, login: true, name, dept })
-    await this.Admin();
+    await console.log("영찬아 함봐라11:",name, admin,dept, this.state.isAdmin);
+    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, admin, login: true, name, dept })
+    await console.log("영찬아 함봐라12:",name, admin,dept, this.state.isAdmin);
   }
+
+
   Logout = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false, login: false })
   }
@@ -95,6 +97,9 @@ npm
 
   Admin = async () => {
     this.isAdmin();
+
+    await console.log("영찬아 함봐라222:",this.state.name, this.state.admin,this.state.dept, this.state.isAdmin);
+
     const {
       data: {
         Admins
@@ -103,7 +108,7 @@ npm
       = await axios.get('http://localhost:9000/admins', {
                 params: {
                   dept: this.state.dept,
-                  rank: this.state.admin,
+                  admin: this.state.isAdmin,
                   id: this.state.id
                }
       })
@@ -114,6 +119,7 @@ npm
 
   render() {
     const { isLogin, isTimeLog, isAdmin, login, Timelogs, Admins } = this.state;
+    console.log("isAdmin :", isAdmin);
     return (
       <div className="App">
         <div className="sidebar">
