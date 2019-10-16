@@ -14,7 +14,7 @@ router.use(cors());
 router.get('/', function (req, res, next) {
  
     
-    // medical_BC_Service.attendReportInsert("10001", "1570674446222", "0");
+    // medical_BC_Service.attendReportInsert("10001", "1570674446222", "0");zzzz
     // medical_BC_Service.attendReportInsert("10001", "1570674456222", "1");
     // console.log("-----------")
     // medical_BC_Service.attendReportInsert("10001", "1570674543222", "0");
@@ -86,15 +86,12 @@ router.get('/', function (req, res, next) {
                                                 // 마지막 데이터가 1이 아니고 0일때 마지막 블록 빼고 계산
                                                 if((JSON.parse(blockResult)[JSON.parse(blockResult).length-1].Value.status) == "0"){
                                                     if(m == (JSON.parse(blockResult)).length-1){
-                                                        console.log("111111111111111111111");
                                                         m++;
                                                     }else{
-                                                        console.log("22222222222222222");
                                                         stampArr.push((JSON.parse(blockResult)[l].Value.timestamp));
                                                         l++;
                                                     }
                                                 }else{
-                                                    console.log("333333333333333333333");
                                                     stampArr.push((JSON.parse(blockResult)[l].Value.timestamp));
                                                     l++;
                                                 }
@@ -114,10 +111,10 @@ router.get('/', function (req, res, next) {
                                             //calTime(stampArr);
                                             console.log(calTime(stampArr));
                                             try {
-                                            FinalResultObj.FinTotalTime = calTime(stampArr);
+                                            FinalResultObj.FinTotalTime = String(Math.floor(calTime(stampArr)))+"분";
                                             FinalResultObj.FinDept = result[j].DEPT;
                                             FinalResultObj.FinName = result[j].MEMBER_NAME;
-                                            FinalResultObj.FinNum =  result[j].MEMBER_NO;
+                                            FinalResultObj.FinNum =  String(result[j].MEMBER_NO);
                                             } catch (error) {
                                                 console.log(error);
                                                 
@@ -140,7 +137,7 @@ router.get('/', function (req, res, next) {
                                     if(k == result.length){
                                         
                                         console.log("FINAL!!",FinalResultArr)
-                                        res.send(JSON.stringify(FinalResultArr));
+                                        res.send({FinalResultArr});
                                     }
                                  }
                                 
