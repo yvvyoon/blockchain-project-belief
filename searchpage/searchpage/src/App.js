@@ -20,7 +20,7 @@ class App extends React.Component {
     pw: '',
     Timelogs: [],
     dept: '',
-    Admins: []
+    FinalResultArr: []
   }
 
   handleChange = (e) => {
@@ -41,7 +41,6 @@ class App extends React.Component {
     //this.TimeLog();
     e.preventDefault();
   }
-npm
   isLogin = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false })
   }
@@ -99,10 +98,11 @@ npm
     this.isAdmin();
 
     await console.log("영찬아 함봐라222:",this.state.name, this.state.admin,this.state.dept, this.state.isAdmin);
+    await console.log(this.state.FinalResultArr);
 
     const {
       data: {
-        Admins
+        FinalResultArr
       }
     }
       = await axios.get('http://localhost:9000/admins', {
@@ -112,14 +112,14 @@ npm
                   id: this.state.id
                }
       })
-    await console.log(Admins);
-    await this.setState({ Admins })
+    await console.log("12313123", FinalResultArr);
+    await this.setState({ FinalResultArr })
+    await console.log("12313123", this.state.FinalResultArr);
   }
 
 
   render() {
-    const { isLogin, isTimeLog, isAdmin, login, Timelogs, Admins } = this.state;
-    console.log("isAdmin :", isAdmin);
+    const { isLogin, isTimeLog, isAdmin, login, Timelogs, FinalResultArr } = this.state;
     return (
       <div className="App">
         <div className="sidebar">
@@ -195,15 +195,15 @@ npm
                     <th className="tb_width">근무시간</th>
                   </tr>
                 </table>
-                {Admins.map(admin => (
+                {FinalResultArr.map(FinalResultArr => (
                   <Admin
-                    dept={admin.dept}
-                    id={admin.id}
-                    name={admin.name}
-                    total={admin.total}
+                    dept={FinalResultArr.FinDept}
+                    id={FinalResultArr.FinNum}
+                    name={FinalResultArr.FinName}
+                    total={FinalResultArr.FinTotalTime}
                   />
                 ))}
-                <p>10/14(월)~10/16(수) IT1팀의 조회 내역입니다.</p>
+                <p>10/14(월)~10/16(수) {this.state.dept}팀의 조회 내역입니다.</p>
               </div>
           }
         </div>
@@ -211,5 +211,6 @@ npm
     );
   }
 }
+
 
 export default App;
