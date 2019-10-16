@@ -20,7 +20,7 @@ class App extends React.Component {
     pw: '',
     Timelogs: [],
     dept: '',
-    FinalResultArr: []
+    Admins: []
   }
 
   handleChange = (e) => {
@@ -41,14 +41,18 @@ class App extends React.Component {
     //this.TimeLog();
     e.preventDefault();
   }
+
   isLogin = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false })
   }
   isTimeLog = () => {
     this.setState({ isLogin: false, isTimeLog: true, isAdmin: false })
+    this.TimeLog();
+
   }
   isAdminTimeLog = () => {
     this.setState({ isLogin: false, isTimeLog: true, isAdmin: true })
+    this.TimeLog();
   }
   isAdmin = () => {
     this.setState({ isLogin: false, isTimeLog: false, isAdmin: true, login: true })
@@ -62,17 +66,17 @@ class App extends React.Component {
         dept
       }
     }
-      = await axios.get('http://localhost:9000/login', {
+      = await axios.get('http://70.12.224.38:9000/login', {
         params: {
           id: this.state.id,
-          pw: this.state.pw,
+          pw: this.state.pw
         }
       })
-    await console.log("영찬아 함봐라11:",name, admin,dept, this.state.isAdmin);
-    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, admin, login: true, name, dept })
-    await console.log("영찬아 함봐라12:",name, admin,dept, this.state.isAdmin);
+    await console.log("영찬아 함봐라:",name, admin,dept);
+    await this.setState({ isLogin: false, isTimeLog: true, isAdmin: admin, login: true, name, dept });
+    await this.TimeLog();
+    
   }
-
 
   Logout = () => {
     this.setState({ isLogin: true, isTimeLog: false, isAdmin: false, login: false })
@@ -81,45 +85,40 @@ class App extends React.Component {
   TimeLog = async () => {
     const {
       data: {
-        Timelogs
+        send_params
       }
     }
-      = await axios.get('http://localhost:9000/timelogs', {
+      = await axios.get('http://70.12.224.38:9000/timelogs', {
         params: {
           id: this.state.id
         }
       })
-    await console.log(Timelogs);
-    await this.setState({ Timelogs })
+    await console.log("이게 결과냐 : ",send_params);
+    await this.setState({Timelogs: [send_params]});
 
   }
 
   Admin = async () => {
     this.isAdmin();
-
-    await console.log("영찬아 함봐라222:",this.state.name, this.state.admin,this.state.dept, this.state.isAdmin);
-    await console.log(this.state.FinalResultArr);
-
     const {
       data: {
-        FinalResultArr
+        Admins
       }
     }
-      = await axios.get('http://localhost:9000/admins', {
+      = await axios.get('http://70.12.224.38:9000/admins', {
                 params: {
                   dept: this.state.dept,
-                  admin: this.state.isAdmin,
+                  rank: this.state.admin,
                   id: this.state.id
                }
       })
-    await console.log("12313123", FinalResultArr);
-    await this.setState({ FinalResultArr })
-    await console.log("12313123", this.state.FinalResultArr);
+    await console.log(Admins);
+    await this.setState({ Admins })
   }
 
 
   render() {
-    const { isLogin, isTimeLog, isAdmin, login, Timelogs, FinalResultArr } = this.state;
+    const { isLogin, isTimeLog, isAdmin, login, Timelogs, Admins } = this.state;
     return (
       <div className="App">
         <div className="sidebar">
@@ -163,7 +162,6 @@ class App extends React.Component {
                 <button type="submit" onClick={this.pushLogin}>로그인</button>
               </div>
             </form>
-
             : isTimeLog ?
               <div>
                 <p className="title">{this.state.name}님 반갑습니다.</p>
@@ -177,10 +175,10 @@ class App extends React.Component {
                 </table>
                 {Timelogs.map(timelog => (
                   <TimeLog
-                    id={timelog.id}
-                    date={timelog.date}
-                    time={timelog.time}
-                    type={timelog.type} />
+                    id={timelog.MEMBER_NAME}
+                    date={timelog.RANK}
+                    time={timelog.DEPT}
+                    type={timelog.FinTotalTime} />
                 ))}
                 <p>이번 주 총 근무시간은 00분 입니다.</p>
               </div>
@@ -195,15 +193,15 @@ class App extends React.Component {
                     <th className="tb_width">근무시간</th>
                   </tr>
                 </table>
-                {FinalResultArr.map(FinalResultArr => (
+                {Admins.map(admin => (
                   <Admin
-                    dept={FinalResultArr.FinDept}
-                    id={FinalResultArr.FinNum}
-                    name={FinalResultArr.FinName}
-                    total={FinalResultArr.FinTotalTime}
+                    dept={admin.dept}
+                    id={admin.id}
+                    name={admin.name}
+                    total={admin.total}
                   />
                 ))}
-                <p>10/14(월)~10/16(수) {this.state.dept}팀의 조회 내역입니다.</p>
+                <p>10/14(월)~10/16(수) IT1팀의 조회 내역입니다.</p>
               </div>
           }
         </div>
@@ -211,6 +209,5 @@ class App extends React.Component {
     );
   }
 }
-
 
 export default App;
