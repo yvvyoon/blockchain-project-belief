@@ -19,6 +19,7 @@ class App extends React.Component {
     id: '',
     pw: '',
     Timelogs: [],
+    total: 0,
     dept: '',
     FinalResultArr: []
   }
@@ -62,7 +63,7 @@ class App extends React.Component {
         dept
       }
     }
-      = await axios.get('http://70.12.229.178:9000/login', {
+      = await axios.get('http://localhost:9000/login', {
         params: {
           id: this.state.id,
           pw: this.state.pw,
@@ -81,16 +82,17 @@ class App extends React.Component {
   TimeLog = async () => {
     const {
       data: {
-        totalArr
+        totalArr,
+        total
       }
     }
-      = await axios.get('http://70.12.229.178:9000/timelogs', {
+      = await axios.get('http://localhost:9000/timelogs', {
         params: {
           id: this.state.id
         }
       })
     await console.log("이거 나와라!!!!",totalArr);
-    await this.setState({ Timelogs: totalArr })
+    await this.setState({ Timelogs: totalArr, total })
 
   }
 
@@ -105,7 +107,7 @@ class App extends React.Component {
         FinalResultArr
       }
     }
-      = await axios.get('http://70.12.229.178:9000/admins', {
+      = await axios.get('http://localhost:9000/admins', {
                 params: {
                   dept: this.state.dept,
                   admin: this.state.isAdmin,
@@ -128,13 +130,6 @@ class App extends React.Component {
           </ul>
           {login ?
             isAdmin ?
-              this.isAdminTimeLog ?
-                <ul className="sidenav">
-                  <li><p onClick={this.Logout}><img src={userPng} alt=""/>로그아웃</p></li>
-                  <li><p onClick={this.isAdminTimeLog}><img src={filePng} alt=""/>근태기록</p></li>
-                  <li><p onClick={this.Admin}><img src={padlockPng} alt=""/>부서별조회</p></li>
-                </ul>
-                :
                 <ul className="sidenav">
                   <li><p onClick={this.Logout}><img src={userPng} alt=""/>로그아웃</p></li>
                   <li><p onClick={this.isAdminTimeLog}><img src={filePng} alt=""/>근태기록</p></li>
@@ -146,7 +141,6 @@ class App extends React.Component {
                 <li><p onClick={this.isTimeLog}><img src={filePng} alt=""/>근태기록</p></li>
               </ul>
             :
-            
             <ul className="sidenav">
               <li><p onClick={this.isLogin}><img src={userPng} alt=""/>로그인</p></li>
             </ul>
@@ -163,7 +157,6 @@ class App extends React.Component {
                 <button type="submit" onClick={this.pushLogin}>로그인</button>
               </div>
             </form>
-
             : isTimeLog ?
               <div>
                 <p className="title">{this.state.name}님 반갑습니다.</p>
@@ -182,7 +175,7 @@ class App extends React.Component {
                     time={timelog.time}
                     type={timelog.type} />
                 ))}
-                <p>이번 주 총 근무시간은 00분 입니다.</p>
+                <p>이번 주 총 근무시긴은 {this.state.total}분 입니다.</p>
               </div>
               :
               <div>

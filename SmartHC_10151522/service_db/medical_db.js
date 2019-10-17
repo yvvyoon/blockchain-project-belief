@@ -1,5 +1,5 @@
 const MongoClient=require('mongodb').MongoClient;
-const url='mongodb://localhost:27017/SmartHC';
+const url='mongodb://70.12.229.178:27017/SmartHC';
 
 module.exports={
     medicalReportInsert: function(pcode, name,ssn){
