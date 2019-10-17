@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 
 
 
-function timelog({ number, date, time, type }) {
+function timelog({ id, date, time, type }) {
     return (
         <div className="timelog">
             <table>
                 <tr>
-                    <td className="tb_width">{number}</td>
+                    <td className="tb_width">{id}</td>
                     <td className="tb_width">{date}</td>
                     <td className="tb_width">{time}</td>
                     <td className="tb_width">{type}</td>
@@ -18,7 +18,7 @@ function timelog({ number, date, time, type }) {
     );
 }
 timelog.ProtoTypes = {
-    number: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,

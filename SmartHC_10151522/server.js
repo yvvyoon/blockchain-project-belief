@@ -31,7 +31,10 @@ const contact=require('./routes/contact');
 app.use('/contact', contact);
 const medical=require('./routes/medical');
 app.use('/medical', medical);
-  
+const admins=require('./routes/admins');
+app.use('/admins', admins);
+const timelogs=require('./routes/timelogs');
+app.use('/timelogs', timelogs);
 app.use('/login', require('./routes/login'));
 app.use(function(err, req, res, next) {
   console.error(err.stack);

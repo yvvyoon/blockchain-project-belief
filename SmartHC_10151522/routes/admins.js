@@ -14,16 +14,14 @@ router.use(cors());
 router.get('/', function (req, res, next) {
  
     
-    // medical_BC_Service.attendReportInsert("10001", "1570674446222", "0");zzzz
+    // medical_BC_Service.attendReportInsert("10001", "1570674446222", "0");
     // medical_BC_Service.attendReportInsert("10001", "1570674456222", "1");
-    // console.log("-----------")
     // medical_BC_Service.attendReportInsert("10001", "1570674543222", "0");
-    // console.log("-----------")
     // medical_BC_Service.attendReportInsert("10001", "1570675543222", "1");
     // medical_BC_Service.attendReportInsert("10003", "1570675643222", "0");
     // medical_BC_Service.attendReportInsert("10003", "1570675843222", "1");
     // medical_BC_Service.attendReportInsert("10003", "1570686653333", "0");
-
+    // medical_BC_Service.attendReportInsert("10002", "1570700000000", "0");
     // Check User type Password 
    
         MongoClient.connect(url, function (err, db) {
@@ -35,12 +33,11 @@ router.get('/', function (req, res, next) {
                 console.log('db connected...ok');
                 // 1. Check password in member DB
           
-
                         // 2.Check member in same department
                      db.collection('member').find({"DEPT" : req.query.dept}).toArray(
                         async   (err, result) => { 
                              //result : All member in same department 
-
+                            console.log(result);
                             // Check User authority 
                             if(req.query.admin){   
                                 
@@ -68,7 +65,7 @@ router.get('/', function (req, res, next) {
                                     const totalArr = new Array();  
 
                                     await medical_BC_Service.getHistoryForNo(MemberNumForRecord[j]).then((blockResult) => {
-                                       
+                                       console.log("blockResult", blockResult)
                                         // 블록에 출근 기록 있어야 실행함
                                         if(JSON.parse(blockResult)[0]){
                                             console.log("Entrance Result :");
@@ -110,8 +107,16 @@ router.get('/', function (req, res, next) {
                                             // }
                                             //calTime(stampArr);
                                             console.log(calTime(stampArr));
+                                            Min = calTime(stampArr)
                                             try {
-                                            FinalResultObj.FinTotalTime = String(Math.floor(calTime(stampArr)))+"분";
+                                                let Min = calTime(stampArr)
+                                                let Hour = 0;
+                                                if(Min>60){
+                                                    Hour = Min / 60;
+                                                    Min = Min % 60;
+                                                    
+                                                }
+                                            FinalResultObj.FinTotalTime = String(Math.floor(Hour))+"시간"+String(Math.floor(Min))+"분";
                                             FinalResultObj.FinDept = result[j].DEPT;
                                             FinalResultObj.FinName = result[j].MEMBER_NAME;
                                             FinalResultObj.FinNum =  String(result[j].MEMBER_NO);

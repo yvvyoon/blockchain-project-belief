@@ -38,7 +38,7 @@ class App extends React.Component {
 
   pushLogin = (e) => {
     this.login();
-    //this.TimeLog();
+    this.TimeLog();
     e.preventDefault();
   }
   isLogin = () => {
@@ -62,7 +62,7 @@ class App extends React.Component {
         dept
       }
     }
-      = await axios.get('http://localhost:9000/login', {
+      = await axios.get('http://70.12.229.178:9000/login', {
         params: {
           id: this.state.id,
           pw: this.state.pw,
@@ -81,16 +81,16 @@ class App extends React.Component {
   TimeLog = async () => {
     const {
       data: {
-        Timelogs
+        totalArr
       }
     }
-      = await axios.get('http://localhost:9000/timelogs', {
+      = await axios.get('http://70.12.229.178:9000/timelogs', {
         params: {
           id: this.state.id
         }
       })
-    await console.log(Timelogs);
-    await this.setState({ Timelogs })
+    await console.log("이거 나와라!!!!",totalArr);
+    await this.setState({ Timelogs: totalArr })
 
   }
 
@@ -105,7 +105,7 @@ class App extends React.Component {
         FinalResultArr
       }
     }
-      = await axios.get('http://localhost:9000/admins', {
+      = await axios.get('http://70.12.229.178:9000/admins', {
                 params: {
                   dept: this.state.dept,
                   admin: this.state.isAdmin,
@@ -177,7 +177,7 @@ class App extends React.Component {
                 </table>
                 {Timelogs.map(timelog => (
                   <TimeLog
-                    id={timelog.id}
+                    id={this.state.id}
                     date={timelog.date}
                     time={timelog.time}
                     type={timelog.type} />
