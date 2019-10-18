@@ -81,7 +81,8 @@ class App extends React.Component {
 
 
   Logout = () => { // 로그아웃시
-    this.setState({ isLogin: true, isTimeLog: false, isAdmin: false, login: false })
+
+    this.setState({ id: '', pw: '', isLogin: true, isTimeLog: false, isAdmin: false, login: false }) //수정 부분
   }
 
   TimeLog = async () => { // TimeLog 함수 호출
@@ -168,7 +169,7 @@ class App extends React.Component {
               </div>
             </form>
             // 로그인이 필요하지 않음
-                        //TimeLog 호출시  
+            //TimeLog 호출시  
             : isTimeLog ?
               <div>
                 <p className="title">{this.state.name}님 반갑습니다.</p>
