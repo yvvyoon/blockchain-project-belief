@@ -98,7 +98,7 @@ class App extends React.Component {
         }
       })
           await console.log("totalArr : ", totalArr);
-    await this.setState({ Timelogs: totalArr, total }) //totalArr를 Timelogs에 넣음
+    await this.setState({ Timelogs: totalArr, total }) // totalArr를 Timelogs에 넣음
 
   }
 
